@@ -17,7 +17,7 @@ Think carefully about how the computer will guess a number. Start with it guessi
 ## Usage
 
 ```
-$ node guess.js
+$ node index.js
 Please think of a number between 1 and 100 (inclusive).
 I will try to guess it.
 
