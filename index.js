@@ -13,41 +13,70 @@ start();
 
 async function start() {
   console.log("Let's play a game where you (human) make up a number and I (computer) try to guess it.")
+  let maxNumber = await ask("What should be the maximum number I can guess to?\n")
+  let max = parseInt(maxNumber);
+
+  if (isNaN(max) || max <= 1) {
+    console.log("Please enter a valid maximum number greater than 1");
+    process.exit();
+  }
+
   let secretNumber = await ask("What is your secret number?\nI won't peek, I promise...\n");
-  console.log('You entered: ' + secretNumber);
 
   let min = 1;
-  let max = 100;
   let guess = Math.floor((min + max) /2);
   
+  if (isNaN(secretNumber) || secretNumber < min || secretNumber > max) {
+    console.log('Please enter a valid guess')
+    process.exit()
+  } else {
+    console.log('You entered: ' + secretNumber);
+  }
+
   let attempts = 0;
   let running = true;
+  let higherOrLower = null; 
   
   while (running) {
     let response = await ask (`Is your number... ${guess}? Type y for yes and n for no\n`)
     
     if (response.toLowerCase() === `n`) {
-      console.log("Fiddlesticks!")
-
+      console.log(`Dang! For reference, I guessed ${guess}`)
+      
+      if((higherOrLower === `h` && response === `l` || higherOrLower === `l` && response === `h`)) {
+        console.log(`You are contradicting yourself! Play fair please.`)
+        process.exit()
+      }
+      
     } else if (response.toLowerCase() === `y` ) {
+      attempts ++;
       console.log(`I guessed it right! The number you chose is ${guess}!`)
+      console.log(`It took me ${attempts} tries to guess your number`)
       process.exit()
-
-    } else if (response.toLowerCase !== `n` || `y`) {
+      
+    } else if (response.toLowerCase() !== `n` || `y`) {
       console.log("Please enter a valid response")
+      process.exit();
     }
     
-    response = await ask(`Is it higher or lower? Use h for higher and l for lower\n`);
+    let newResponse = await ask(`Is it higher or lower? Use h for higher and l for lower\n`)
+
+    if ((higherOrLower === `h` && newResponse === `l` || higherOrLower === `l` && newResponse === `h`)) {
+      console.log(`You are contradicting yourself! Play fair please.`)
+      process.exit()
+      }
     
-    
-    if (response === `h`) {
+    if (newResponse === `h`) {
       min = guess;
+      attempts ++;
     guess = Math.floor((min + max) /2);
-  } else if (response === `l`) {
+  } else if (newResponse === `l`) {
     max = guess;
+    attempts ++;
     guess = Math.floor((min + max) /2);
   } else {
     console.log("Please choose a valid response.")
+    process.exit();
   }
   
 
@@ -55,3 +84,9 @@ async function start() {
 
 process.exit();
 }
+
+/* 
+! Role Reversal
+*/
+
+
