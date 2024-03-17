@@ -84,9 +84,3 @@ async function start() {
 
 process.exit();
 }
-
-/* 
-! Role Reversal
-*/
-
-
