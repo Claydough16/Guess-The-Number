@@ -34,10 +34,9 @@ async function start() {
   }
 
   let attempts = 0;
-  let running = true;
   let higherOrLower = null; 
   
-  while (running) {
+  while (true) {
     let response = await ask (`Is your number... ${guess}? Type y for yes and n for no\n`)
     
     if (response.toLowerCase() === `n`) {
@@ -67,20 +66,18 @@ async function start() {
       }
     
     if (newResponse === `h`) {
-      min = guess;
+      min = guess + 1;
       attempts ++;
     guess = Math.floor((min + max) /2);
   } else if (newResponse === `l`) {
-    max = guess;
+    max = guess - 1;
     attempts ++;
     guess = Math.floor((min + max) /2);
   } else {
     console.log("Please choose a valid response.")
     process.exit();
   }
+
+  }
   
-
-}
-
-process.exit();
 }
