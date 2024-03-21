@@ -37,12 +37,12 @@ async function start() {
 
         if (guess < secretNumber) {
             console.log(`Nope! My number is greater than ${guess}`);
-         } else if (guess > secretNumber) {
+        } else if (guess > secretNumber) {
             console.log(`Nope! My number is less than ${guess}`);
-         } else {
+        } else {
             console.log(`You guessed it! My number was ${secretNumber}! It took you ${attempts} attempts`);
             process.exit()
-         }
+        }
     }
 
   }
